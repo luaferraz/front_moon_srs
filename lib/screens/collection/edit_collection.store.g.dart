@@ -101,6 +101,17 @@ mixin _$EditCollectionStore on _EditCollectionStore, Store {
   }
 
   @override
+  dynamic _setLoading(bool value) {
+    final _$actionInfo = _$_EditCollectionStoreActionController.startAction(
+        name: '_EditCollectionStore._setLoading');
+    try {
+      return super._setLoading(value);
+    } finally {
+      _$_EditCollectionStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic _setErrorMessage(String value) {
     final _$actionInfo = _$_EditCollectionStoreActionController.startAction(
         name: '_EditCollectionStore._setErrorMessage');

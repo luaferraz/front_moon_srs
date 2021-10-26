@@ -1,5 +1,6 @@
 class _Authentication {
   final signIn = "/auth/sign-in";
+  final signUp = "/auth/sign-up";
 }
 
 class _Collection {
@@ -9,11 +10,11 @@ class _Collection {
 }
 
 class _Card {
-  final listCardsByCollectionId =
-      "/card/list-cards-by-collection-id?collectionId=1";
+  final listCardsByCollectionId = "/card/list-cards-by-collection-id";
   final createCard = "/card/create-card";
   final getCardByReleaseDate = "/card/get-card-by-release-date";
   final answerCard = "/card/answer-card";
+  final deleteCard = "/card/delete-card";
 }
 
 final authentication = _Authentication();

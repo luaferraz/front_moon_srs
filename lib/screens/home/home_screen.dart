@@ -6,6 +6,7 @@ import 'package:front_moon_srs/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/shared/themes/app_text_styles.dart';
 import 'package:front_moon_srs/shared/widgets/app_bottom_bar.dart';
+import 'package:front_moon_srs/shared/widgets/app_button_icon.dart';
 import 'package:front_moon_srs/shared/widgets/app_button_text.dart';
 import 'package:front_moon_srs/shared/widgets/app_dialog.dart';
 import 'package:front_moon_srs/shared/widgets/app_input.dart';
@@ -59,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               SizedBox(height: AppDimens.space * 2),
-              _collectionInfo(),
+              Observer(
+                builder: (_) => _collectionInfo(),
+              ),
               Expanded(
                 child: Observer(
                   builder: (_) => (AppLoading(
@@ -87,7 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         color: AppColors.white,
-        child: AppBottomBar(),
+        child: AppBottomBar(
+          showHome: false,
+        ),
       ),
     );
   }
@@ -196,10 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
               color: AppColors.black,
               borderRadius: BorderRadius.circular(AppDimens.space * 2)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
               AppButtonText(
+                bgColor: AppColors.primary,
                 content: "start",
                 onPressed: () {
                   _homeStore.collectionService
@@ -208,14 +213,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       context, route.spacedRepetition, (route) => false);
                 },
               ),
-              AppButtonText(
-                content: "edit",
-                onPressed: () {
-                  _homeStore.collectionService
-                      .setSelectedCollection(collectionModel);
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, route.editCollection, (route) => true);
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AppButtonIcon(
+                    icon: Icons.edit,
+                    iconColor: AppColors.black,
+                    bgColor: AppColors.lightGrey,
+                    width: MediaQuery.of(context).size.width * 0.14,
+                    onPressed: () {
+                      _homeStore.collectionService
+                          .setSelectedCollection(collectionModel);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, route.editCollection, (route) => true);
+                    },
+                  ),
+                ],
               ),
             ],
           ),

@@ -4,6 +4,9 @@ import 'package:front_moon_srs/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/routes.dart' as route;
 
 class AppBottomBar extends StatelessWidget {
+  bool showHome;
+  bool showSettings;
+  AppBottomBar({this.showHome = true, this.showSettings = true});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,20 +16,30 @@ class AppBottomBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, route.home, (route) => false);
-            },
+            onTap: showHome
+                ? () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, route.home, (route) => false);
+                  }
+                : () {},
             child: Icon(
               Icons.house_rounded,
               color: AppColors.primary,
               size: 35,
             ),
           ),
-          Icon(
-            Icons.account_circle_rounded,
-            color: AppColors.primary,
-            size: 35,
+          GestureDetector(
+            onTap: showSettings
+                ? () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, route.appSettings, (route) => false);
+                  }
+                : () {},
+            child: Icon(
+              Icons.settings,
+              color: AppColors.primary,
+              size: 35,
+            ),
           ),
         ],
       ),

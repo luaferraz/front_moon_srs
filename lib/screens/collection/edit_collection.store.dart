@@ -20,6 +20,9 @@ abstract class _EditCollectionStore with Store {
   @action
   setLoading(bool value) => isLoading = value;
 
+  @action
+  _setLoading(bool value) => isLoading = value;
+
   @observable
   String errorMessage = "";
 
@@ -46,6 +49,7 @@ abstract class _EditCollectionStore with Store {
     try {
       setLoading(true);
       selectedCollection = collectionService.selectedCollection;
+      print(selectedCollection.id);
       collectionCards =
           await cardService.listCardByCollectionId(selectedCollection.id);
 
@@ -76,6 +80,58 @@ abstract class _EditCollectionStore with Store {
       return false;
     } finally {
       setLoading(false);
+    }
+  }
+
+  Future<bool> insertDeletedCard(CardModel collectionCard) async {
+    try {
+      setLoading(true);
+
+      await cardService.createCard(collectionCard, selectedCollection.id);
+
+      return true;
+    } on DioError catch (e) {
+      print("Error:  $e");
+      _setErrorMessage("Oops! Algo deu errado, tente novamente.");
+
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<bool> deleteCard(int cardId) async {
+    try {
+      _setLoading(true);
+
+      await cardService.deleteCard(cardId);
+
+      return true;
+    } on DioError catch (e) {
+      print("Error:  $e");
+      _setErrorMessage("Oops! Algo deu errado, tente novamente.");
+
+      return false;
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<bool> refreshCardList() async {
+    try {
+      _setLoading(true);
+
+      collectionCards =
+          await cardService.listCardByCollectionId(selectedCollection.id);
+
+      return true;
+    } on DioError catch (e) {
+      print("Error:  $e");
+      _setErrorMessage("Oops! Algo deu errado, tente novamente.");
+
+      return false;
+    } finally {
+      _setLoading(false);
     }
   }
 }

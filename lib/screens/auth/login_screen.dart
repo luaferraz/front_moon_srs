@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 310,
           ),
           AppInput(
-            hintText: "Username",
+            hintText: "username",
             value: _loginStore.formSignIn.username,
             onChange: (value) {
               _loginStore.formSignIn.username = value;
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           AppInput(
             errorText: _loginStore.errorMessage,
-            hintText: "Password",
+            hintText: "password",
             obscureText: isPasswordHidden,
             sulfixIcon: true,
             onTapSulfixIcon: () {
@@ -112,9 +112,15 @@ class _LoginScreenState extends State<LoginScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Sign up",
-                style: AppTextStyles.textButtonUnderline,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, route.signUp, (route) => false);
+                },
+                child: Text(
+                  "Sign up",
+                  style: AppTextStyles.textButtonUnderline,
+                ),
               ),
               AppButtonText(
                   content: "Login",

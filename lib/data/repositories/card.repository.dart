@@ -4,13 +4,13 @@ import 'package:front_moon_srs/data/models/card.model.dart';
 import '../sources/api.source.dart' as endpoints;
 
 class CardRepository {
-  Future<List<CardModel>> listCardsByCollectionId(int cardId) async {
+  Future<List<CardModel>> listCardsByCollectionId(int collectionId) async {
     String url = endpoints.card.listCardsByCollectionId;
 
     final dio = DioClient.withAuthentication().instance;
 
     Map<String, dynamic> params = {
-      "cardId": cardId,
+      "collectionId": collectionId,
     };
 
     final retList = await dio.get(url, queryParameters: params);
@@ -60,5 +60,19 @@ class CardRepository {
     final ret = await dio.put(url, queryParameters: params);
 
     return CardModel.fromJson(ret.data);
+  }
+
+  Future<bool> deleteCard(int cardId) async {
+    String url = endpoints.card.deleteCard;
+
+    final dio = DioClient.withAuthentication().instance;
+
+    Map<String, dynamic> params = {
+      "cardId": cardId,
+    };
+
+    final ret = await dio.delete(url, queryParameters: params);
+
+    return ret.data;
   }
 }

@@ -15,6 +15,11 @@ abstract class _CardServiceBase with Store {
   @action
   setSelectedCard(CardModel value) => selectedCard = value;
 
+  @action
+  void reset() {
+    setSelectedCard(CardModel());
+  }
+
   Future<List<CardModel>> listCardByCollectionId(int cardId) async {
     return await cardRepository.listCardsByCollectionId(cardId);
   }
@@ -29,5 +34,9 @@ abstract class _CardServiceBase with Store {
 
   Future<CardModel> answerCard(int cardId, int priority) async {
     return await cardRepository.answerCard(cardId, priority);
+  }
+
+  Future<bool> deleteCard(int cardId) async {
+    return await cardRepository.deleteCard(cardId);
   }
 }

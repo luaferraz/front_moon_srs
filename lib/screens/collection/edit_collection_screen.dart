@@ -24,6 +24,8 @@ class EditCollectionScreen extends StatefulWidget {
 class _EditCollectionScreenState extends State<EditCollectionScreen> {
   final EditCollectionStore _editCollectionStore = EditCollectionStore();
 
+  bool undo = false;
+
   @override
   void initState() {
     super.initState();
@@ -172,49 +174,156 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
     );
   }
 
+  _deleteSwapBg() {
+    return Container(
+      alignment: Alignment.centerRight,
+      margin: EdgeInsets.only(
+          right: AppDimens.space,
+          top: AppDimens.space,
+          bottom: AppDimens.space),
+      padding: EdgeInsets.all(AppDimens.space),
+      decoration: BoxDecoration(
+        color: AppColors.red,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(AppDimens.space),
+          bottomRight: Radius.circular(AppDimens.space),
+        ),
+      ),
+      child: Icon(
+        Icons.delete_rounded,
+        color: AppColors.white,
+      ),
+    );
+  }
+
+  _showSnackBar(context, CardModel collectionCard, int index) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: AppColors.primary,
+        content: Text("card ** front: ${collectionCard.front} ** deleted"),
+        action: SnackBarAction(
+          label: "undo",
+          textColor: AppColors.black,
+          onPressed: () async {
+            undo = true;
+            await _editCollectionStore.insertDeletedCard(collectionCard);
+            await _editCollectionStore.refreshCardList();
+          },
+        ),
+      ),
+    );
+  }
+
   _card(CardModel collectionCard, int index) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: AppDimens.space),
-          padding: EdgeInsets.all(AppDimens.space * 2),
-          decoration: BoxDecoration(
-            color: AppColors.lightGrey,
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppDimens.space * 2),
+    return Dismissible(
+      key: UniqueKey(),
+      background: _deleteSwapBg(),
+      onDismissed: (direction) async {
+        _showSnackBar(context, collectionCard, index);
+        await _editCollectionStore.deleteCard(collectionCard.id);
+        await _editCollectionStore.refreshCardList();
+      },
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: AppDimens.space),
+            padding: EdgeInsets.all(AppDimens.space * 2),
+            decoration: BoxDecoration(
+              color: AppColors.lightGrey,
+              borderRadius: BorderRadius.all(
+                Radius.circular(AppDimens.space * 2),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _cardContentLine(
+                        title: "front: ", content: collectionCard.front),
+                    SizedBox(height: AppDimens.space * 0.5),
+                    _cardContentLine(
+                        title: "back: ", content: collectionCard.back),
+                    SizedBox(height: AppDimens.space * 0.5),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("priority: ", style: AppTextStyles.textPrimary),
+                        _cardPriority(priority: collectionCard.priority),
+                      ],
+                    )
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    bool ret = await _editCollectionStore
+                        .deleteCard(collectionCard.id);
+
+                    if (ret) {
+                      AppModal(
+                        context: context,
+                        title: "are you sure you want to delete the card?",
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppButtonText(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.03,
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                content: "cancel",
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              AppButtonText(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.03,
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                content: "delete",
+                                bgColor: AppColors.red,
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                  await _editCollectionStore
+                                      .deleteCard(collectionCard.id);
+                                  await _editCollectionStore.refreshCardList();
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      );
+                    } else {
+                      AppModal(
+                        context: context,
+                        title:
+                            "there was an error while trying to delete the card",
+                        actions: [
+                          AppButtonText(
+                            height: MediaQuery.of(context).size.height * 0.03,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            content: "ok",
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                  child: Icon(
+                    Icons.delete_forever_rounded,
+                    color: AppColors.red,
+                    size: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                )
+              ],
             ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _cardContentLine(
-                      title: "front: ", content: collectionCard.front),
-                  SizedBox(height: AppDimens.space * 0.5),
-                  _cardContentLine(
-                      title: "back: ", content: collectionCard.back),
-                  SizedBox(height: AppDimens.space * 0.5),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("priority: ", style: AppTextStyles.textPrimary),
-                      _cardPriority(priority: collectionCard.priority),
-                    ],
-                  )
-                ],
-              ),
-              Icon(
-                Icons.delete_forever_rounded,
-                color: AppColors.red,
-                size: MediaQuery.of(context).size.height * 0.05,
-              )
-            ],
-          ),
-        ),
-        SizedBox(height: AppDimens.space),
-      ],
+          SizedBox(height: AppDimens.space),
+        ],
+      ),
     );
   }
 
@@ -254,13 +363,15 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
                   actions: [
                     AppButtonText(
                       content: "cancel",
-                      onPressed: () {
+                      onPressed: () async {
+                        await _editCollectionStore.refreshCardList();
                         Navigator.pop(context);
                       },
                     ),
                     AppButtonText(
                       content: "create new",
-                      onPressed: () {
+                      onPressed: () async {
+                        await _editCollectionStore.refreshCardList();
                         Navigator.pop(context);
                         _createCard();
                       },

@@ -33,6 +33,11 @@ class AppTextStyles {
     color: AppColors.darkGrey,
   );
 
+  static final textInput = GoogleFonts.lato(
+    fontSize: 16,
+    color: AppColors.darkGrey,
+  );
+
   static final smallContentWhite = GoogleFonts.lato(
     fontSize: 16,
     fontWeight: FontWeight.bold,

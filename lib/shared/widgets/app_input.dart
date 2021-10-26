@@ -51,59 +51,66 @@ class AppInput extends StatelessWidget {
       }
     }
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: AppColors.lightGrey,
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: TextFormField(
-        onTap: onTap != null ? () => onTap!() : () {},
-        onChanged: (data) {
-          onChange(data);
-        },
-        controller: textEditingController,
-        obscureText: obscureText,
-        validator: validator,
-        keyboardType: keyboardType,
-        inputFormatters: inputFormatters,
-        textInputAction: textInputAction,
-        focusNode: focusNode,
-        onFieldSubmitted: (String text) {
-          if (nextFocus != null) FocusScope.of(context).requestFocus(nextFocus);
-        },
-        decoration: InputDecoration(
-          suffixIcon: sulfixIcon
-              ? obscureText
-                  ? IconButton(
-                      icon: Icon(
-                        Icons.visibility_off,
-                        color: AppColors.darkGrey,
-                      ),
-                      onPressed: onTapSulfixIcon != null
-                          ? () => onTapSulfixIcon!()
-                          : () {},
-                    )
-                  : IconButton(
-                      icon: Icon(
-                        Icons.visibility,
-                        color: AppColors.darkGrey,
-                      ),
-                      onPressed: onTapSulfixIcon != null
-                          ? () => onTapSulfixIcon!()
-                          : () {},
-                    )
-              : null,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.primary, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.lightGrey, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
-          hintText: hintText,
+    return TextFormField(
+      onTap: onTap != null ? () => onTap!() : () {},
+      onChanged: (data) {
+        onChange(data);
+      },
+      controller: textEditingController,
+      obscureText: obscureText,
+      validator: validator,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      textInputAction: textInputAction,
+      focusNode: focusNode,
+      onFieldSubmitted: (String text) {
+        if (nextFocus != null) FocusScope.of(context).requestFocus(nextFocus);
+      },
+      decoration: InputDecoration(
+        fillColor: AppColors.lightGrey,
+        filled: true,
+        labelText: hintText,
+        labelStyle: AppTextStyles.textInput,
+        suffixIcon: sulfixIcon
+            ? obscureText
+                ? IconButton(
+                    icon: Icon(
+                      Icons.visibility_off,
+                      color: AppColors.darkGrey,
+                    ),
+                    onPressed: onTapSulfixIcon != null
+                        ? () => onTapSulfixIcon!()
+                        : () {},
+                  )
+                : IconButton(
+                    icon: Icon(
+                      Icons.visibility,
+                      color: AppColors.darkGrey,
+                    ),
+                    onPressed: onTapSulfixIcon != null
+                        ? () => onTapSulfixIcon!()
+                        : () {},
+                  )
+            : null,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.lightGrey, width: 1.0),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
+        errorStyle: AppTextStyles.textError,
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.red, width: 1.0),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.primary, width: 1.0),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.lightGrey, width: 1.0),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+        ),
+        contentPadding: const EdgeInsets.fromLTRB(15, 10, 10, 0),
+        hintText: hintText,
       ),
     );
   }

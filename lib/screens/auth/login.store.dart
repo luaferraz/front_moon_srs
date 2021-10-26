@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:front_moon_srs/core/service_locator.dart';
 import 'package:front_moon_srs/data/models/dtos/sign_in.dto.dart';
 import 'package:front_moon_srs/data/services/auth.service.dart';
+import 'package:front_moon_srs/data/services/card.service.dart';
+import 'package:front_moon_srs/data/services/collection.service.dart';
 import 'package:mobx/mobx.dart';
 
 part 'login.store.g.dart';
@@ -11,6 +13,8 @@ class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
   final authService = serviceLocator<AuthService>();
+  final cardService = serviceLocator<CardService>();
+  final collectionService = serviceLocator<CollectionService>();
 
   @observable
   bool isLoading = false;
@@ -35,6 +39,8 @@ abstract class _LoginStore with Store {
       setLoading(true);
 
       authService.reset();
+      cardService.reset();
+      collectionService.reset();
     } catch (e) {
       print(e);
     }
