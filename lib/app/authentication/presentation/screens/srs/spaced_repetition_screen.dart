@@ -238,27 +238,30 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
           content: "eazy",
           bgColor: AppColors.green,
           onPressed: () async {
-            priority = 0;
-            priorityColor = AppColors.green;
-            await _spacedRepetitionStore.getCardByReleaseDate();
+            setState(() {
+              priority = 0;
+              priorityColor = AppColors.green;
+            });
           },
         ),
         AppButtonText(
           content: "medium",
           bgColor: AppColors.yellow,
           onPressed: () async {
-            priority = 1;
-            priorityColor = AppColors.yellow;
-            await _spacedRepetitionStore.getCardByReleaseDate();
+            setState(() {
+              priority = 1;
+              priorityColor = AppColors.yellow;
+            });
           },
         ),
         AppButtonText(
           content: "hard",
           bgColor: AppColors.red,
           onPressed: () async {
-            priority = 2;
-            priorityColor = AppColors.red;
-            await _spacedRepetitionStore.getCardByReleaseDate();
+            setState(() {
+              priority = 2;
+              priorityColor = AppColors.red;
+            });
           },
         ),
       ],

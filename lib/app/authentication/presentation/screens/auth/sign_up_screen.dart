@@ -90,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 _signUpStore.formSignUp.email = value;
               },
               validator: _validateEmail,
-              keyboardType: TextInputType.name,
+              keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               focusNode: _focusEmail,
               nextFocus: _focusPassword,
