@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:front_moon_srs/app/authentication/presentation/screens/auth/login_screen.dart';
+import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/core/app_config.dart';
-import 'package:front_moon_srs/core/helpers/navigator.helper.dart';
+import 'package:front_moon_srs/core/routes/routes.dart';
 import 'package:front_moon_srs/core/service_locator.dart';
-import 'package:front_moon_srs/routes.dart' as route;
-import 'package:front_moon_srs/screens/auth/login_screen.dart';
-import 'package:front_moon_srs/shared/themes/app_colors.dart';
+import 'package:front_moon_srs/core/routes/router.dart' as app;
 
 void main() {
   AppConfig.setEnvironment(Environment.DEV);
@@ -24,10 +24,9 @@ class AppWidget extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           primarySwatch: Colors.blue, backgroundColor: AppColors.white),
-      navigatorKey: serviceLocator<NavigatorHelper>().navigatorKey,
-      home: const LoginScreen(),
-      onGenerateRoute: route.controller,
-      initialRoute: route.login,
+      // navigatorKey: serviceLocator<NavigatorHelper>().navigatorKey,
+      onGenerateRoute: app.Router.generateRoute,
+      initialRoute: Routes.login,
     );
   }
 }

@@ -2,7 +2,7 @@
     package="com.example.front_moon_srs">
    <application
         android:label="front_moon_srs"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
