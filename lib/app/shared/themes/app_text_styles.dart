@@ -57,13 +57,13 @@ class AppTextStyles {
   );
 
   static final cardContentBig = GoogleFonts.lato(
-    fontSize: 35,
+    fontSize: 25,
     fontWeight: FontWeight.bold,
     color: AppColors.black,
   );
 
   static final cardContentBigLight = GoogleFonts.lato(
-    fontSize: 35,
+    fontSize: 25,
     fontWeight: FontWeight.bold,
     color: AppColors.white,
   );

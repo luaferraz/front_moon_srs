@@ -137,7 +137,8 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
                       children: [
                         Container(
                           margin: EdgeInsets.only(bottom: AppDimens.space),
-                          padding: EdgeInsets.all(AppDimens.space * 3),
+                          padding: EdgeInsets.fromLTRB(
+                              AppDimens.space * 2, 0, AppDimens.space * 2, 45),
                           height: MediaQuery.of(context).size.height * 0.25,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -184,7 +185,8 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
                         children: [
                           Container(
                             margin: EdgeInsets.only(bottom: AppDimens.space),
-                            padding: EdgeInsets.all(AppDimens.space * 3),
+                            padding: EdgeInsets.fromLTRB(AppDimens.space * 2, 0,
+                                AppDimens.space * 2, 45),
                             height: MediaQuery.of(context).size.height * 0.25,
                             width: double.infinity,
                             decoration: BoxDecoration(

@@ -86,6 +86,22 @@ mixin _$EditCollectionStore on _EditCollectionStore, Store {
     });
   }
 
+  final _$editCollectionModelAtom =
+      Atom(name: '_EditCollectionStore.editCollectionModel');
+
+  @override
+  CollectionModel get editCollectionModel {
+    _$editCollectionModelAtom.reportRead();
+    return super.editCollectionModel;
+  }
+
+  @override
+  set editCollectionModel(CollectionModel value) {
+    _$editCollectionModelAtom.reportWrite(value, super.editCollectionModel, () {
+      super.editCollectionModel = value;
+    });
+  }
+
   final _$_EditCollectionStoreActionController =
       ActionController(name: '_EditCollectionStore');
 
@@ -140,7 +156,8 @@ isLoading: ${isLoading},
 errorMessage: ${errorMessage},
 collectionCards: ${collectionCards},
 cardModel: ${cardModel},
-selectedCollection: ${selectedCollection}
+selectedCollection: ${selectedCollection},
+editCollectionModel: ${editCollectionModel}
     ''';
   }
 }

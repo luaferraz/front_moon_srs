@@ -40,7 +40,13 @@ abstract class _EditCollectionStore with Store {
   CardModel cardModel = CardModel();
 
   @observable
+  CardModel editCardModel = CardModel();
+
+  @observable
   CollectionModel selectedCollection = CollectionModel();
+
+  @observable
+  CollectionModel editCollectionModel = CollectionModel();
 
   Future<bool> init(BuildContext context) async {
     return await fetchData();
@@ -71,7 +77,59 @@ abstract class _EditCollectionStore with Store {
 
       await cardService.createCard(cardModel, selectedCollection.id);
 
-      // collectionCards = await cardService.listCardByCollectionId(collectionService.selectedCollection.id);
+      return true;
+    } on DioError catch (e) {
+      print("Error:  $e");
+      _setErrorMessage("Oops! Algo deu errado, tente novamente.");
+
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<bool> editCard(int cardId) async {
+    try {
+      setLoading(true);
+
+      await cardService.editCard(cardId, editCardModel);
+
+      return true;
+    } on DioError catch (e) {
+      print("Error:  $e");
+      _setErrorMessage("Oops! Algo deu errado, tente novamente.");
+
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<bool> editCollection() async {
+    try {
+      setLoading(true);
+
+      await collectionService.editCollection(
+          selectedCollection.id, editCollectionModel);
+
+      await collectionService.updateSelectedCollection();
+
+      return true;
+    } on DioError catch (e) {
+      print("Error:  $e");
+      _setErrorMessage("Oops! Algo deu errado, tente novamente.");
+
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<bool> deleteCollection() async {
+    try {
+      setLoading(true);
+
+      await collectionService.deleteCollection(selectedCollection.id);
 
       return true;
     } on DioError catch (e) {

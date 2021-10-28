@@ -33,6 +33,21 @@ class CardRepository {
     return CardModel.fromJson(ret.data);
   }
 
+  Future<CardModel> editCard(int cardId, CardModel cardModel) async {
+    String url = endpoints.card.editCard;
+
+    final dio = HttpService.withAuthentication().instance;
+
+    Map<String, dynamic> params = {
+      "cardId": cardId,
+    };
+
+    final ret =
+        await dio.put(url, queryParameters: params, data: cardModel.toJson());
+
+    return CardModel.fromJson(ret.data);
+  }
+
   Future<CardModel> getCardByReleaseDate(int collectionId) async {
     String url = endpoints.card.getCardByReleaseDate;
 

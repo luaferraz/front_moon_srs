@@ -28,6 +28,10 @@ abstract class _CardServiceBase with Store {
     return await cardRepository.createCard(cardModel, collectionId);
   }
 
+  Future<CardModel> editCard(int collectionId, CardModel cardModel) async {
+    return await cardRepository.editCard(collectionId, cardModel);
+  }
+
   Future<CardModel> getCardByReleaseDate(int collectionId) async {
     return await cardRepository.getCardByReleaseDate(collectionId);
   }

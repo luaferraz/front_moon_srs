@@ -154,7 +154,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           AppButtonText(
                             content: "ok",
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, Routes.login, (route) => false);
                             },
                           )
                         ],
@@ -203,14 +204,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? _validatePassword(String? password) {
     if (password!.isEmpty) return "cannot be empty";
-    if (password.contains(RegExp(r'[A-Z]'))) {
-      return "password needs at least one letter in uppercase";
+    if (!password.contains(RegExp(r'[A-Z]'))) {
+      return "at least one letter in uppercase";
     }
     if (!password.contains(RegExp(r'[0-9]'))) {
       return "password needs at least one number";
-    }
-    if (!password.contains(RegExp(r'[a-z]'))) {
-      return "password needs to have letters";
     }
     if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
       return "password needs to have special character (@!#%)";

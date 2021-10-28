@@ -20,6 +20,18 @@ abstract class _CollectionServiceBase with Store {
     setSelectedCollection(CollectionModel());
   }
 
+  Future<void> updateSelectedCollection() async {
+    if (selectedCollection.id != null) return;
+
+    CollectionModel getCollection =
+        await getCollectionById(selectedCollection.id);
+    setSelectedCollection(getCollection);
+  }
+
+  Future<CollectionModel> getCollectionById(int collectionId) async {
+    return await collectionRepository.getCollectionById(collectionId);
+  }
+
   Future<List<CollectionModel>> listCollectionsByCurrentUserId() async {
     return await collectionRepository.listCollectionsByCurrentUserId();
   }
@@ -27,5 +39,15 @@ abstract class _CollectionServiceBase with Store {
   Future<CollectionModel> createCollection(
       CollectionModel collectionModel) async {
     return await collectionRepository.createCollection(collectionModel);
+  }
+
+  Future<CollectionModel> editCollection(
+      int collectionId, CollectionModel collectionModel) async {
+    return await collectionRepository.editCollection(
+        collectionId, collectionModel);
+  }
+
+  Future<bool> deleteCollection(int collectionId) async {
+    return await collectionRepository.deleteCollection(collectionId);
   }
 }

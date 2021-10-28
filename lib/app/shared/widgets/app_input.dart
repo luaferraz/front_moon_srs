@@ -57,6 +57,8 @@ class AppInput extends StatelessWidget {
         onChange(data);
       },
       controller: textEditingController,
+      minLines: 1,
+      maxLines: obscureText ? 1 : 7,
       obscureText: obscureText,
       validator: validator,
       keyboardType: keyboardType,
