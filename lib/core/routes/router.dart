@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/auth/login_screen.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/auth/sign_up_screen.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/collection/edit_collection_screen.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/home/home_screen.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/settings/app_settings.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/srs/spaced_repetition_screen.dart';
+import 'package:front_moon_srs/app/presentation/screens/auth/login_screen.dart';
+import 'package:front_moon_srs/app/presentation/screens/auth/sign_up_screen.dart';
+import 'package:front_moon_srs/app/presentation/screens/collection/edit_collection_screen.dart';
+import 'package:front_moon_srs/app/presentation/screens/home/home_screen.dart';
+import 'package:front_moon_srs/app/presentation/screens/settings/app_settings.dart';
+import 'package:front_moon_srs/app/presentation/screens/srs/spaced_repetition_screen.dart';
 import 'package:front_moon_srs/core/routes/routes.dart';
 
 class Router {

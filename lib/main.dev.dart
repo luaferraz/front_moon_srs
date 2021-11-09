@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/auth/login_screen.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:front_moon_srs/app/presentation/screens/stores/app.store.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
+import 'package:front_moon_srs/app/shared/themes/app_themes.dart';
 import 'package:front_moon_srs/core/app_config.dart';
 import 'package:front_moon_srs/core/routes/routes.dart';
 import 'package:front_moon_srs/core/service_locator.dart';
@@ -10,7 +12,6 @@ void main() {
   AppConfig.setEnvironment(Environment.DEV);
 
   setupLocator();
-
   runApp(const AppWidget());
 }
 
@@ -20,13 +21,19 @@ class AppWidget extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue, backgroundColor: AppColors.white),
-      // navigatorKey: serviceLocator<NavigatorHelper>().navigatorKey,
-      onGenerateRoute: app.Router.generateRoute,
-      initialRoute: Routes.login,
-    );
+    AppStore _appStore = AppStore();
+    print("${_appStore.isDark} main dev");
+    return Observer(builder: (_) {
+      return MaterialApp(
+        title: 'Moon SRS',
+        // themeMode: _appStore.themeMode,
+        themeMode: ThemeMode.system,
+        darkTheme: AppThemes.darkTheme,
+        theme: AppThemes.lightTheme,
+        // theme: _appStore.themeData,
+        onGenerateRoute: app.Router.generateRoute,
+        initialRoute: Routes.login,
+      );
+    });
   }
 }

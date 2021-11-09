@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:front_moon_srs/app/authentication/data/models/collection.model.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/home/home.store.dart';
+import 'package:front_moon_srs/app/presentation/screens/home/home.store.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
@@ -48,9 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
         title: AppTobBar(),
         elevation: 0,
       ),
@@ -80,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         elevation: 10,
         onPressed: () {
           _createCollection();
@@ -89,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        color: AppColors.white,
         child: AppBottomBar(
           showHome: false,
         ),

@@ -85,6 +85,22 @@ mixin _$SpacedRepetitionStore on _SpacedRepetitionStore, Store {
     });
   }
 
+  final _$editCardModelAtom =
+      Atom(name: '_SpacedRepetitionStore.editCardModel');
+
+  @override
+  CardModel get editCardModel {
+    _$editCardModelAtom.reportRead();
+    return super.editCardModel;
+  }
+
+  @override
+  set editCardModel(CardModel value) {
+    _$editCardModelAtom.reportWrite(value, super.editCardModel, () {
+      super.editCardModel = value;
+    });
+  }
+
   final _$_SpacedRepetitionStoreActionController =
       ActionController(name: '_SpacedRepetitionStore');
 
@@ -128,7 +144,8 @@ isLoading: ${isLoading},
 errorMessage: ${errorMessage},
 cardModel: ${cardModel},
 collectionModel: ${collectionModel},
-isCardNull: ${isCardNull}
+isCardNull: ${isCardNull},
+editCardModel: ${editCardModel}
     ''';
   }
 }

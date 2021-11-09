@@ -40,6 +40,9 @@ abstract class _SpacedRepetitionStore with Store {
   @observable
   bool isCardNull = false;
 
+  @observable
+  CardModel editCardModel = CardModel();
+
   Future<bool> init(BuildContext context) async {
     return await fetchData();
   }
@@ -97,6 +100,23 @@ abstract class _SpacedRepetitionStore with Store {
     } on DioError catch (e) {
       print("Error:  $e");
       isCardNull = true;
+      _setErrorMessage("Oops! Algo deu errado, tente novamente.");
+
+      return false;
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  Future<bool> editCard(int cardId) async {
+    try {
+      _setLoading(true);
+
+      await cardService.editCard(cardId, editCardModel);
+
+      return true;
+    } on DioError catch (e) {
+      print("Error:  $e");
       _setErrorMessage("Oops! Algo deu errado, tente novamente.");
 
       return false;

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:front_moon_srs/app/shared/themes/app_themes.dart';
 import 'package:front_moon_srs/core/app_config.dart';
 import 'package:front_moon_srs/core/routes/router.dart' as app;
 import 'package:front_moon_srs/core/routes/routes.dart';
 import 'package:front_moon_srs/core/service_locator.dart';
-
-import 'app/authentication/presentation/screens/auth/login_screen.dart';
 import 'app/shared/themes/app_colors.dart';
 
 void main() {
@@ -23,8 +22,9 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-          primarySwatch: Colors.blue, backgroundColor: AppColors.white),
+      themeMode: ThemeMode.system,
+      darkTheme: AppThemes.darkTheme,
+      theme: AppThemes.lightTheme,
       // navigatorKey: serviceLocator<NavigatorHelper>().navigatorKey,
       onGenerateRoute: app.Router.generateRoute,
       initialRoute: Routes.login,

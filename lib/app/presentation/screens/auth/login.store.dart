@@ -4,6 +4,8 @@ import 'package:front_moon_srs/app/authentication/data/models/dtos/sign_in.dto.d
 import 'package:front_moon_srs/app/authentication/data/services/auth.service.dart';
 import 'package:front_moon_srs/app/authentication/data/services/card.service.dart';
 import 'package:front_moon_srs/app/authentication/data/services/collection.service.dart';
+import 'package:front_moon_srs/app/authentication/data/sources/locar_storage.source.dart';
+import 'package:front_moon_srs/core/routes/routes.dart';
 import 'package:front_moon_srs/core/service_locator.dart';
 import 'package:mobx/mobx.dart';
 
@@ -55,6 +57,9 @@ abstract class _LoginStore with Store {
 
         return false;
       }
+
+      LocalStorageSource.setString('user_username', formSignIn.username);
+      LocalStorageSource.setString('user_password', formSignIn.password);
 
       await authService.signIn(formSignIn);
 

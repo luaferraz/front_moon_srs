@@ -19,9 +19,6 @@ abstract class _EditCollectionStore with Store {
   bool isLoading = false;
 
   @action
-  setLoading(bool value) => isLoading = value;
-
-  @action
   _setLoading(bool value) => isLoading = value;
 
   @observable
@@ -54,9 +51,8 @@ abstract class _EditCollectionStore with Store {
 
   Future<bool> fetchData() async {
     try {
-      setLoading(true);
+      _setLoading(true);
       selectedCollection = collectionService.selectedCollection;
-      print(selectedCollection.id);
       collectionCards =
           await cardService.listCardByCollectionId(selectedCollection.id);
 
@@ -67,13 +63,13 @@ abstract class _EditCollectionStore with Store {
 
       return false;
     } finally {
-      setLoading(false);
+      _setLoading(false);
     }
   }
 
   Future<bool> createCard() async {
     try {
-      setLoading(true);
+      _setLoading(true);
 
       await cardService.createCard(cardModel, selectedCollection.id);
 
@@ -84,13 +80,13 @@ abstract class _EditCollectionStore with Store {
 
       return false;
     } finally {
-      setLoading(false);
+      _setLoading(false);
     }
   }
 
   Future<bool> editCard(int cardId) async {
     try {
-      setLoading(true);
+      _setLoading(true);
 
       await cardService.editCard(cardId, editCardModel);
 
@@ -101,13 +97,13 @@ abstract class _EditCollectionStore with Store {
 
       return false;
     } finally {
-      setLoading(false);
+      _setLoading(false);
     }
   }
 
   Future<bool> editCollection() async {
     try {
-      setLoading(true);
+      _setLoading(true);
 
       await collectionService.editCollection(
           selectedCollection.id, editCollectionModel);
@@ -121,13 +117,13 @@ abstract class _EditCollectionStore with Store {
 
       return false;
     } finally {
-      setLoading(false);
+      _setLoading(false);
     }
   }
 
   Future<bool> deleteCollection() async {
     try {
-      setLoading(true);
+      _setLoading(true);
 
       await collectionService.deleteCollection(selectedCollection.id);
 
@@ -138,13 +134,13 @@ abstract class _EditCollectionStore with Store {
 
       return false;
     } finally {
-      setLoading(false);
+      _setLoading(false);
     }
   }
 
   Future<bool> insertDeletedCard(CardModel collectionCard) async {
     try {
-      setLoading(true);
+      _setLoading(true);
 
       await cardService.createCard(collectionCard, selectedCollection.id);
 
@@ -155,7 +151,7 @@ abstract class _EditCollectionStore with Store {
 
       return false;
     } finally {
-      setLoading(false);
+      _setLoading(false);
     }
   }
 

@@ -21,7 +21,7 @@ class AuthRepository {
 
     final dio = HttpService().instance;
 
-    final retSignUp = await dio.post(url, data: signUpDto.toJson());
+    await dio.post(url, data: signUpDto.toJson());
 
     return true;
   }

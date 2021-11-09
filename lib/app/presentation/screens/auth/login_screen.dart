@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/auth/login.store.dart';
+import 'package:front_moon_srs/app/authentication/data/sources/locar_storage.source.dart';
+import 'package:front_moon_srs/app/presentation/screens/auth/login.store.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
@@ -25,22 +26,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isPasswordHidden = true;
 
+  var username = "";
+  var password = "";
+
   @override
   void initState() {
-    fetchDataInit();
-
     super.initState();
+    setState(() {
+      fetchDataInit();
+    });
   }
 
   Future<void> fetchDataInit() async {
     await _loginStore.init(context);
-  }
+    username = await LocalStorageSource.getString('user_username');
+    print(username);
+    password = await LocalStorageSource.getString('user_password');
+    print(password);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
     setState(() {
-      fetchDataChange();
+      username;
+      password;
     });
   }
 
@@ -50,37 +56,36 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.white,
         body: SafeArea(
-          child: Observer(
-            builder: (_) => Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  AppConfig.WHERE_AM_I != ""
-                      ? Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16.0),
-                            color: AppColors.red,
-                          ),
-                          child: Text(
-                            "${AppConfig.WHERE_AM_I}",
-                            style: AppTextStyles.smallContentWhite,
-                          ),
-                        )
-                      : Container(),
-                  const SizedBox(
-                    height: 100,
-                  ),
-                  _loginForm(),
-                ],
+      child: Observer(
+        builder: (_) => Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AppConfig.WHERE_AM_I != ""
+                  ? Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        color: AppColors.red,
+                      ),
+                      child: Text(
+                        "${AppConfig.WHERE_AM_I}",
+                        style: AppTextStyles.smallContentWhite,
+                      ),
+                    )
+                  : Container(),
+              const SizedBox(
+                height: 100,
               ),
-            ),
+              _loginForm(),
+            ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
 
   Widget _loginForm() {
@@ -91,7 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             AppInput(
               hintText: "username",
-              value: _loginStore.formSignIn.username,
+              value:
+                  username != "" ? username : _loginStore.formSignIn.username,
               onChange: (value) {
                 _loginStore.formSignIn.username = value;
               },
@@ -112,7 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
               onTapSulfixIcon: () {
                 _togglePasswordVisibility();
               },
-              value: _loginStore.formSignIn.password,
+              value:
+                  password != "" ? password : _loginStore.formSignIn.password,
               onChange: (value) {
                 _loginStore.formSignIn.password = value;
               },
@@ -148,6 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 115,
                     height: 41,
                     onPressed: () async {
+                      if (_loginStore.formSignIn.username == "") {
+                        _loginStore.formSignIn.username = username;
+                      }
+                      if (_loginStore.formSignIn.password == "") {
+                        _loginStore.formSignIn.password = password;
+                      }
                       final ret = await _loginStore.signIn();
 
                       if (ret) {

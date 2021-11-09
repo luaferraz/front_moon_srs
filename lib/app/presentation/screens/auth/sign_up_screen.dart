@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/auth/sign_up.store.dart';
+import 'package:front_moon_srs/app/presentation/screens/auth/sign_up.store.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_button_text.dart';
@@ -19,6 +19,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final SignUpStore _signUpStore = SignUpStore();
+
   final FocusNode _focusEmail = FocusNode();
   final FocusNode _focusPassword = FocusNode();
   final FocusNode _focusPasswordConfirm = FocusNode();
@@ -49,7 +50,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),

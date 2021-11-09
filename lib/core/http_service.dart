@@ -49,6 +49,7 @@ class HttpService {
       return handler.next(options);
     }, onError: (error, handler) async {
       print(error.message);
+
       return handler.next(error);
     }));
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:front_moon_srs/app/authentication/data/models/card.model.dart';
 import 'package:front_moon_srs/app/authentication/data/sources/api.source.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/collection/edit_collection.store.dart';
+import 'package:front_moon_srs/app/presentation/screens/collection/edit_collection.store.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
@@ -56,9 +56,7 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
         title: AppTobBar(),
         automaticallyImplyLeading: false,
         elevation: 0,
@@ -81,6 +79,7 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: null,
         elevation: 10,
         onPressed: () {
           _createCard();
@@ -90,7 +89,6 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
-        color: AppColors.white,
         child: AppBottomBar(),
       ),
     );
@@ -371,142 +369,142 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
                     GestureDetector(
                         onTap: () {
                           AppModal(
-                              context: context,
-                              title: "edit card",
-                              content: Form(
-                                  key: _formKey,
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        AppInput(
-                                          hintText: "new front",
-                                          value: collectionCard.front,
-                                          validator: _validatorFront,
-                                          keyboardType: TextInputType.text,
-                                          textInputAction: TextInputAction.next,
-                                          nextFocus: _focusCardBack,
-                                          onChange: (value) {
-                                            _editCollectionStore
-                                                .editCardModel.front = value;
-                                          },
-                                        ),
-                                        SizedBox(height: AppDimens.space * 2),
-                                        AppInput(
-                                          hintText: "new back",
-                                          value: collectionCard.back,
-                                          validator: _validatorBack,
-                                          keyboardType: TextInputType.text,
-                                          textInputAction: TextInputAction.done,
-                                          focusNode: _focusCardBack,
-                                          onChange: (value) {
-                                            _editCollectionStore
-                                                .editCardModel.back = value;
-                                          },
-                                        ),
-                                        SizedBox(height: AppDimens.space * 2),
-                                        AppButtonIcon(
-                                            bgColor: AppColors.red,
-                                            icon: Icons.delete_forever_rounded,
-                                            onPressed: () {
-                                              AppModal(
-                                                  context: context,
-                                                  title: "delete card",
-                                                  content: Text(
-                                                    "are you sure you want to delete the card?",
-                                                    style:
-                                                        AppTextStyles.textGreyd,
-                                                  ),
-                                                  actions: [
-                                                    Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          _cancelButton(),
-                                                          AppButtonIcon(
-                                                              bgColor:
-                                                                  AppColors.red,
-                                                              icon: Icons
-                                                                  .delete_forever_rounded,
-                                                              onPressed:
-                                                                  () async {
-                                                                bool ret = await _editCollectionStore
-                                                                    .deleteCard(
-                                                                        collectionCard
-                                                                            .id);
-                                                                if (ret) {
-                                                                  AppModal(
-                                                                    context:
-                                                                        context,
-                                                                    title:
-                                                                        "deleted!",
-                                                                    actions: [
-                                                                      AppButtonText(
-                                                                        content:
-                                                                            "ok",
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                      ),
-                                                                    ],
-                                                                  );
-                                                                } else {
-                                                                  _errorModal();
-                                                                }
-                                                              })
-                                                        ])
-                                                  ]);
-                                            })
-                                      ])),
-                              actions: [
-                                Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                            context: context,
+                            title: "edit card",
+                            content: Form(
+                                key: _formKey,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      _cancelButton(),
-                                      AppButtonText(
-                                          content: "edit",
-                                          bgColor: AppColors.primary,
-                                          onPressed: () async {
-                                            if (_editCollectionStore
-                                                    .editCardModel.front ==
-                                                "") {
-                                              _editCollectionStore.editCardModel
-                                                  .front = collectionCard.front;
-                                            }
-                                            if (_editCollectionStore
-                                                    .editCardModel.back ==
-                                                "") {
-                                              _editCollectionStore.editCardModel
-                                                  .front = collectionCard.back;
-                                            }
-
-                                            bool ret =
-                                                await _editCollectionStore
-                                                    .editCard(
-                                                        collectionCard.id);
-                                            Navigator.pop(context);
-
-                                            if (ret) {
-                                              await _editCollectionStore
-                                                  .refreshCardList();
-                                              AppModal(
-                                                  context: context,
-                                                  title: "card edited!");
-                                            } else {
-                                              _errorModal(
-                                                  errorMessage:
-                                                      "error ${_editCollectionStore.errorMessage}");
-                                            }
+                                      AppInput(
+                                        hintText: "new front",
+                                        value: collectionCard.front,
+                                        validator: _validatorFront,
+                                        keyboardType: TextInputType.text,
+                                        textInputAction: TextInputAction.next,
+                                        nextFocus: _focusCardBack,
+                                        onChange: (value) {
+                                          _editCollectionStore
+                                              .editCardModel.front = value;
+                                        },
+                                      ),
+                                      SizedBox(height: AppDimens.space * 2),
+                                      AppInput(
+                                        hintText: "new back",
+                                        value: collectionCard.back,
+                                        validator: _validatorBack,
+                                        keyboardType: TextInputType.text,
+                                        textInputAction: TextInputAction.done,
+                                        focusNode: _focusCardBack,
+                                        onChange: (value) {
+                                          _editCollectionStore
+                                              .editCardModel.back = value;
+                                        },
+                                      ),
+                                      SizedBox(height: AppDimens.space * 2),
+                                      AppButtonIcon(
+                                          bgColor: AppColors.red,
+                                          icon: Icons.delete_forever_rounded,
+                                          onPressed: () {
+                                            AppModal(
+                                                context: context,
+                                                title: "delete card",
+                                                content: Text(
+                                                  "are you sure you want to delete the card?",
+                                                  style:
+                                                      AppTextStyles.textGreyd,
+                                                ),
+                                                actions: [
+                                                  Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        _cancelButton(),
+                                                        AppButtonIcon(
+                                                            bgColor:
+                                                                AppColors.red,
+                                                            icon: Icons
+                                                                .delete_forever_rounded,
+                                                            onPressed:
+                                                                () async {
+                                                              bool ret = await _editCollectionStore
+                                                                  .deleteCard(
+                                                                      collectionCard
+                                                                          .id);
+                                                              if (ret) {
+                                                                AppModal(
+                                                                  context:
+                                                                      context,
+                                                                  title:
+                                                                      "deleted!",
+                                                                  actions: [
+                                                                    AppButtonText(
+                                                                      content:
+                                                                          "ok",
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              } else {
+                                                                _errorModal();
+                                                              }
+                                                            })
+                                                      ])
+                                                ]);
                                           })
-                                    ])
-                              ]);
+                                    ])),
+                            actions: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _cancelButton(),
+                                  AppButtonText(
+                                    content: "edit",
+                                    bgColor: AppColors.primary,
+                                    onPressed: () async {
+                                      if (_editCollectionStore
+                                              .editCardModel.front ==
+                                          "") {
+                                        _editCollectionStore.editCardModel
+                                            .front = collectionCard.front;
+                                      }
+                                      if (_editCollectionStore
+                                              .editCardModel.back ==
+                                          "") {
+                                        _editCollectionStore.editCardModel
+                                            .front = collectionCard.back;
+                                      }
+
+                                      bool ret = await _editCollectionStore
+                                          .editCard(collectionCard.id);
+                                      Navigator.pop(context);
+
+                                      if (ret) {
+                                        await _editCollectionStore
+                                            .refreshCardList();
+                                        AppModal(
+                                            context: context,
+                                            title: "card edited!");
+                                      } else {
+                                        _errorModal(
+                                            errorMessage:
+                                                "error ${_editCollectionStore.errorMessage}");
+                                      }
+                                    },
+                                  )
+                                ],
+                              )
+                            ],
+                          );
                         },
                         child: Container(
                             margin: EdgeInsets.all(AppDimens.space),
@@ -531,66 +529,83 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
 
   _createCard() {
     return AppModal(
-        context: context,
-        title: "create card",
-        content: Form(
-            key: _formKey,
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              AppInput(
-                  hintText: "front",
-                  validator: _validatorFront,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  onChange: (value) {
-                    _editCollectionStore.cardModel.front = value;
-                  }),
-              SizedBox(height: AppDimens.space),
-              AppInput(
-                  hintText: "back",
-                  validator: _validatorBack,
-                  onChange: (value) {
-                    _editCollectionStore.cardModel.back = value;
-                  })
-            ])),
-        actions: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      context: context,
+      title: "create card",
+      content: Form(
+          key: _formKey,
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            AppInput(
+                hintText: "front",
+                validator: _validatorFront,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                onChange: (value) {
+                  _editCollectionStore.cardModel.front = value;
+                }),
+            SizedBox(height: AppDimens.space),
+            AppInput(
+                hintText: "back",
+                validator: _validatorBack,
+                onChange: (value) {
+                  _editCollectionStore.cardModel.back = value;
+                })
+          ])),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             _cancelButton(refresh: true),
             AppButtonText(
-                content: "create",
-                onPressed: () async {
-                  bool formOk = _formKey.currentState!.validate();
+              content: "create",
+              onPressed: () async {
+                bool formOk = _formKey.currentState!.validate();
 
-                  if (!formOk) return;
+                if (!formOk) return;
 
-                  Navigator.pop(context);
-                  bool ret = await _editCollectionStore.createCard();
+                Navigator.pop(context);
+                bool ret = await _editCollectionStore.createCard();
 
-                  if (ret) {
-                    AppModal(context: context, title: "card created", actions: [
-                      _cancelButton(refresh: true),
-                      AppButtonText(
-                          content: "create new",
-                          onPressed: () async {
+                if (ret) {
+                  AppModal(context: context, title: "card created!", actions: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppButtonText(
+                          content: "ok",
+                          onPressed: () {
                             Navigator.pop(context);
-                            _createCard();
-                          }),
-                    ]);
-                  } else {
-                    AppModal(
-                        context: context,
-                        title: _editCollectionStore.errorMessage,
-                        actions: [
-                          AppButtonText(
-                            content: "ok",
-                            onPressed: () {
+                          },
+                        ),
+                        AppButtonText(
+                            content: "create new",
+                            onPressed: () async {
                               Navigator.pop(context);
-                            },
-                          )
-                        ]);
-                  }
-                })
-          ])
-        ]);
+                              _createCard();
+                            }),
+                      ],
+                    ),
+                  ]);
+                } else {
+                  AppModal(
+                    context: context,
+                    title: _editCollectionStore.errorMessage,
+                    actions: [
+                      AppButtonText(
+                        content: "done",
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await _editCollectionStore.refreshCardList();
+                        },
+                      ),
+                    ],
+                  );
+                }
+              },
+            )
+          ],
+        )
+      ],
+    );
   }
 
   _cardPriority({int priority = 0}) {

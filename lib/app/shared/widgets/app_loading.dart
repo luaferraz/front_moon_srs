@@ -12,7 +12,7 @@ class AppLoading extends StatefulWidget {
       required this.status,
       required this.child,
       this.message = "",
-      this.backgroundTransparent = false})
+      this.backgroundTransparent = true})
       : super(key: key);
 
   @override

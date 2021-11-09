@@ -1,12 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:front_moon_srs/app/authentication/presentation/screens/srs/spaced_repetition.store.dart';
+import 'package:front_moon_srs/app/presentation/screens/srs/spaced_repetition.store.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_bottom_bar.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_button_text.dart';
+import 'package:front_moon_srs/app/shared/widgets/app_dialog.dart';
+import 'package:front_moon_srs/app/shared/widgets/app_input.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_loading.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_top_bar.dart';
 
@@ -21,6 +23,8 @@ class SpacedRepetitionScreen extends StatefulWidget {
 
 class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
     with SingleTickerProviderStateMixin {
+  final SpacedRepetitionStore _spacedRepetitionStore = SpacedRepetitionStore();
+
   late AnimationController _animationController;
 
   late Animation _animation;
@@ -31,11 +35,15 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
 
   int priority = 0;
 
-  final SpacedRepetitionStore _spacedRepetitionStore = SpacedRepetitionStore();
+  final _formKey = GlobalKey<FormState>();
+
+  final FocusNode _focusCardBack = FocusNode();
 
   @override
   void initState() {
     super.initState();
+
+    _spacedRepetitionStore.init(context);
 
     setState(() {
       _spacedRepetitionStore.init(context);
@@ -65,7 +73,6 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
       appBar: AppBar(
         backgroundColor: AppColors.white,
         title: AppTobBar(),
@@ -85,7 +92,7 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
                     SizedBox(height: AppDimens.space * 6),
                     (!_spacedRepetitionStore.isCardNull)
                         ? _cardButtons()
-                        : Container()
+                        : Container(),
                   ],
                 )),
               ),
@@ -93,23 +100,127 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
           )),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          await _spacedRepetitionStore.answerCard(priority);
-          _animationController.reset();
-          priorityColor = AppColors.primary;
-          await _spacedRepetitionStore.getCardByReleaseDate();
-        },
-        backgroundColor: AppColors.primary,
-        splashColor: AppColors.red,
-        icon: const Icon(Icons.navigate_next_rounded),
-        label: Text(
-          "next",
-          style: AppTextStyles.smallContentWhite,
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: AppDimens.space * 4),
+            child: FloatingActionButton.extended(
+              heroTag: null,
+              onPressed: () async {
+                AppModal(
+                  context: context,
+                  title: "edit card",
+                  content: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppInput(
+                          hintText: "new front",
+                          value: _spacedRepetitionStore.cardModel.front,
+                          validator: _validatorNewFront,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          nextFocus: _focusCardBack,
+                          onChange: (value) {
+                            _spacedRepetitionStore.editCardModel.front = value;
+                          },
+                        ),
+                        SizedBox(height: AppDimens.space * 2),
+                        AppInput(
+                          hintText: "new back",
+                          value: _spacedRepetitionStore.cardModel.back,
+                          validator: _validatorNewBack,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          focusNode: _focusCardBack,
+                          onChange: (value) {
+                            _spacedRepetitionStore.editCardModel.back = value;
+                          },
+                        ),
+                        SizedBox(height: AppDimens.space * 2),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _cancelButton(),
+                        AppButtonText(
+                          content: "edit",
+                          bgColor: AppColors.primary,
+                          onPressed: () async {
+                            if (_spacedRepetitionStore.editCardModel.front ==
+                                "") {
+                              _spacedRepetitionStore.editCardModel.front =
+                                  _spacedRepetitionStore.cardModel.front;
+                            }
+                            if (_spacedRepetitionStore.editCardModel.back ==
+                                "") {
+                              _spacedRepetitionStore.editCardModel.back =
+                                  _spacedRepetitionStore.cardModel.back;
+                            }
+
+                            bool ret = await _spacedRepetitionStore
+                                .editCard(_spacedRepetitionStore.cardModel.id);
+                            Navigator.pop(context);
+
+                            if (ret) {
+                              AppModal(context: context, title: "card edited!");
+                              setState(() {
+                                _spacedRepetitionStore.cardModel.front =
+                                    _spacedRepetitionStore.editCardModel.front;
+                                _spacedRepetitionStore.cardModel.back =
+                                    _spacedRepetitionStore.editCardModel.back;
+                              });
+                            } else {
+                              _errorModal(
+                                  errorMessage:
+                                      "error ${_spacedRepetitionStore.errorMessage}");
+                            }
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                );
+              },
+              backgroundColor: AppColors.darkGrey,
+              splashColor: AppColors.red,
+              icon: const Icon(Icons.edit),
+              label: Text(
+                "edit card",
+                style: AppTextStyles.smallContentWhite,
+              ),
+            ),
+          ),
+          FloatingActionButton.extended(
+            onPressed: () async {
+              if (priorityColor == AppColors.primary) {
+                return AppModal(
+                    context: context, title: "select an difficulty first!");
+              } else {
+                await _spacedRepetitionStore.answerCard(priority);
+                _animationController.reset();
+                priorityColor = AppColors.primary;
+                await _spacedRepetitionStore.getCardByReleaseDate();
+              }
+            },
+            backgroundColor: AppColors.primary,
+            splashColor: AppColors.red,
+            icon: const Icon(Icons.navigate_next_rounded),
+            label: Text(
+              "next",
+              style: AppTextStyles.smallContentWhite,
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: AppColors.white,
         child: AppBottomBar(),
       ),
     );
@@ -227,7 +338,7 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
           )
         : Center(
             child: Text(
-            "cabo as carta",
+            "no more cards for today",
             style: AppTextStyles.cardContentBig,
           ));
   }
@@ -267,6 +378,45 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
           },
         ),
       ],
+    );
+  }
+
+  String? _validatorNewFront(String? front) {
+    if (front!.isEmpty) return "cannot be empty";
+    if (front.length > 100) return "card can't have more than 100 characters";
+  }
+
+  String? _validatorNewBack(String? back) {
+    if (back!.isEmpty) return "cannot be empty";
+    if (back.length > 100) return "card cant have more than 100 characters";
+  }
+
+  void _errorModal({String errorMessage = ""}) {
+    AppModal(
+      context: context,
+      title: errorMessage == ""
+          ? "there was an error while trying to edit the card ${_spacedRepetitionStore.errorMessage}"
+          : errorMessage,
+      actions: [
+        AppButtonText(
+          height: MediaQuery.of(context).size.height * 0.03,
+          width: MediaQuery.of(context).size.width * 0.3,
+          content: "ok",
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+  }
+
+  _cancelButton() {
+    return AppButtonText(
+      content: "cancel",
+      bgColor: AppColors.primary,
+      onPressed: () async {
+        Navigator.pop(context);
+      },
     );
   }
 }

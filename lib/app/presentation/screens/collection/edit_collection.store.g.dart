@@ -70,6 +70,21 @@ mixin _$EditCollectionStore on _EditCollectionStore, Store {
     });
   }
 
+  final _$editCardModelAtom = Atom(name: '_EditCollectionStore.editCardModel');
+
+  @override
+  CardModel get editCardModel {
+    _$editCardModelAtom.reportRead();
+    return super.editCardModel;
+  }
+
+  @override
+  set editCardModel(CardModel value) {
+    _$editCardModelAtom.reportWrite(value, super.editCardModel, () {
+      super.editCardModel = value;
+    });
+  }
+
   final _$selectedCollectionAtom =
       Atom(name: '_EditCollectionStore.selectedCollection');
 
@@ -104,17 +119,6 @@ mixin _$EditCollectionStore on _EditCollectionStore, Store {
 
   final _$_EditCollectionStoreActionController =
       ActionController(name: '_EditCollectionStore');
-
-  @override
-  dynamic setLoading(bool value) {
-    final _$actionInfo = _$_EditCollectionStoreActionController.startAction(
-        name: '_EditCollectionStore.setLoading');
-    try {
-      return super.setLoading(value);
-    } finally {
-      _$_EditCollectionStoreActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic _setLoading(bool value) {
@@ -156,6 +160,7 @@ isLoading: ${isLoading},
 errorMessage: ${errorMessage},
 collectionCards: ${collectionCards},
 cardModel: ${cardModel},
+editCardModel: ${editCardModel},
 selectedCollection: ${selectedCollection},
 editCollectionModel: ${editCollectionModel}
     ''';

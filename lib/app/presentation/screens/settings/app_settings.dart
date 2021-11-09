@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
+import 'package:front_moon_srs/app/presentation/screens/stores/app.store.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_bottom_bar.dart';
@@ -16,31 +17,37 @@ class AppSettingsScreen extends StatefulWidget {
 }
 
 class _AppSettingsScreenState extends State<AppSettingsScreen> {
+  final AppStore _appStore = AppStore();
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      _appStore.loadTheme();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
         title: AppTobBar(),
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
       body: SafeArea(
-        child: Observer(
-          builder: (_) => Container(
-            margin: EdgeInsets.all(AppDimens.space),
-            child: Column(
-              children: [
-                _settingsInfo(),
-                _settingFields(),
-              ],
-            ),
+        child: Container(
+          margin: EdgeInsets.all(AppDimens.space),
+          child: Column(
+            children: [
+              _settingsInfo(),
+              _settingsFields(),
+            ],
           ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: AppColors.white,
         child: AppBottomBar(
           showSettings: false,
         ),
@@ -62,7 +69,31 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
     );
   }
 
-  _settingFields() {
-    return Column();
+  _settingsFields() {
+    return Column(
+      children: [_toggleDarkMode()],
+    );
+  }
+
+  _toggleDarkMode() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("toggle dark mode"),
+        Observer(builder: (_) {
+          return CupertinoSwitch(
+            value: _appStore.isDark,
+            onChanged: (value) {
+              setState(() {
+                print(
+                    "cliquei no switch $value + isDark ${_appStore.isDark} + themeMode ${_appStore.themeData}");
+                // _appStore.isDark = value;
+                _appStore.changeTheme();
+              });
+            },
+          );
+        }),
+      ],
+    );
   }
 }
