@@ -29,9 +29,6 @@ class _AppLoadingState extends State<AppLoading> {
     return loading == true
         ? Container(
             alignment: Alignment.center,
-            color: widget.backgroundTransparent == true
-                ? Colors.transparent
-                : AppColors.white,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

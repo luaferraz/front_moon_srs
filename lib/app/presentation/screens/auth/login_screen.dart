@@ -14,8 +14,6 @@ import 'package:front_moon_srs/core/routes/routes.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  static const String route = "login";
-
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }

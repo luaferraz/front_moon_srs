@@ -11,8 +11,6 @@ import 'package:front_moon_srs/core/routes/routes.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
-  static const String route = "signUp";
-
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }

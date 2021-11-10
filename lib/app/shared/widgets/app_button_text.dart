@@ -28,8 +28,6 @@ class AppButtonText extends StatelessWidget {
       height: height ?? MediaQuery.of(context).size.height * 0.05,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(bgColor ?? AppColors.primary),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),

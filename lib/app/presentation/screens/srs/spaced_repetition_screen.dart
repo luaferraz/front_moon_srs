@@ -15,8 +15,6 @@ import 'package:front_moon_srs/app/shared/widgets/app_top_bar.dart';
 class SpacedRepetitionScreen extends StatefulWidget {
   const SpacedRepetitionScreen({Key? key}) : super(key: key);
 
-  static const String route = "spacedRepetition";
-
   @override
   _SpacedRepetitionScreenState createState() => _SpacedRepetitionScreenState();
 }
@@ -74,7 +72,6 @@ class _SpacedRepetitionScreenState extends State<SpacedRepetitionScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.white,
         title: AppTobBar(),
         elevation: 0,
       ),

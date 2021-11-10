@@ -17,8 +17,6 @@ import 'package:front_moon_srs/core/routes/routes.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  static const String route = "home";
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

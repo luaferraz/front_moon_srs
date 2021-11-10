@@ -69,7 +69,7 @@ class AppInput extends StatelessWidget {
         if (nextFocus != null) FocusScope.of(context).requestFocus(nextFocus);
       },
       decoration: InputDecoration(
-        fillColor: AppColors.lightGrey,
+        // fillColor: AppColors.lightGrey,
         filled: true,
         labelText: hintText,
         labelStyle: AppTextStyles.textInput,

@@ -13,4 +13,14 @@ class AppColors {
 
   // darkTheme
   static Color bgDark = const Color(0xFF2C2B2E);
+  // static Color primary10 = const Color(0xFF2C2B2E);
+  // static Color primary20 = const Color(0xFF2C2B2E);
+  // static Color primary30 = const Color(0xFF2C2B2E);
+  // static Color primary40 = const Color(0xFF2C2B2E);
+  // static Color primary50 = const Color(0xFF2C2B2E);
+  // static Color primary60 = const Color(0xFF2C2B2E);
+  // static Color primary70 = const Color(0xFF2C2B2E);
+  // static Color primary80 = const Color(0xFF2C2B2E);
+  // static Color primary90 = const Color(0xFF2C2B2E);
+  // static Color primary100 = const Color(0xFF2C2B2E);
 }

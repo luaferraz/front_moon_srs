@@ -18,8 +18,6 @@ import 'package:front_moon_srs/core/routes/routes.dart';
 class EditCollectionScreen extends StatefulWidget {
   const EditCollectionScreen({Key? key}) : super(key: key);
 
-  static const String route = "editCollection";
-
   @override
   _EditCollectionScreenState createState() => _EditCollectionScreenState();
 }
