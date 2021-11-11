@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 
+import '../../../app.dart';
+
 class AppLoading extends StatefulWidget {
   final bool backgroundTransparent;
   final String message;
@@ -12,7 +14,7 @@ class AppLoading extends StatefulWidget {
       required this.status,
       required this.child,
       this.message = "",
-      this.backgroundTransparent = true})
+      this.backgroundTransparent = false})
       : super(key: key);
 
   @override
@@ -29,18 +31,23 @@ class _AppLoadingState extends State<AppLoading> {
     return loading == true
         ? Container(
             alignment: Alignment.center,
+            color: widget.backgroundTransparent == true
+                ? Colors.transparent
+                : AppWidget.themeNotifier.value == ThemeMode.light
+                    ? AppColors.white
+                    : AppColors.bgDark,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(widget.message)),
-                  CircularProgressIndicator(
-                    backgroundColor: Colors.transparent,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColors.primary),
-                  )
-                ]),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(widget.message)),
+                CircularProgressIndicator(
+                  backgroundColor: Colors.transparent,
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                ),
+              ],
+            ),
           )
         : Container();
   }

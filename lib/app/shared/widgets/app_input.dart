@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
 
+import '../../../app.dart';
+
 class AppInput extends StatelessWidget {
   bool obscureText = false;
   String? value;
@@ -65,11 +67,14 @@ class AppInput extends StatelessWidget {
       inputFormatters: inputFormatters,
       textInputAction: textInputAction,
       focusNode: focusNode,
+      style: AppTextStyles.textInput,
       onFieldSubmitted: (String text) {
         if (nextFocus != null) FocusScope.of(context).requestFocus(nextFocus);
       },
       decoration: InputDecoration(
-        // fillColor: AppColors.lightGrey,
+        fillColor: AppWidget.themeNotifier.value == ThemeMode.light
+            ? AppColors.lightGrey
+            : AppColors.fillInputDark,
         filled: true,
         labelText: hintText,
         labelStyle: AppTextStyles.textInput,
@@ -78,7 +83,9 @@ class AppInput extends StatelessWidget {
                 ? IconButton(
                     icon: Icon(
                       Icons.visibility_off,
-                      color: AppColors.darkGrey,
+                      color: AppWidget.themeNotifier.value == ThemeMode.light
+                          ? AppColors.darkGrey
+                          : AppColors.lightGrey,
                     ),
                     onPressed: onTapSulfixIcon != null
                         ? () => onTapSulfixIcon!()
@@ -87,7 +94,9 @@ class AppInput extends StatelessWidget {
                 : IconButton(
                     icon: Icon(
                       Icons.visibility,
-                      color: AppColors.darkGrey,
+                      color: AppWidget.themeNotifier.value == ThemeMode.light
+                          ? AppColors.darkGrey
+                          : AppColors.lightGrey,
                     ),
                     onPressed: onTapSulfixIcon != null
                         ? () => onTapSulfixIcon!()
@@ -95,7 +104,11 @@ class AppInput extends StatelessWidget {
                   )
             : null,
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.lightGrey, width: 1.0),
+          borderSide: BorderSide(
+              color: AppWidget.themeNotifier.value == ThemeMode.light
+                  ? AppColors.lightGrey
+                  : AppColors.black,
+              width: 1.0),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
         errorStyle: AppTextStyles.textError,
@@ -108,7 +121,11 @@ class AppInput extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.lightGrey, width: 1.0),
+          borderSide: BorderSide(
+              color: AppWidget.themeNotifier.value == ThemeMode.light
+                  ? AppColors.darkGrey
+                  : AppColors.lightGrey,
+              width: 1.0),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
         contentPadding: const EdgeInsets.fromLTRB(15, 10, 10, 0),

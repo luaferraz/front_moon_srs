@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:front_moon_srs/app.dart';
 import 'package:front_moon_srs/app/authentication/data/sources/locar_storage.source.dart';
 import 'package:front_moon_srs/app/presentation/screens/settings/app_settings.store.dart';
+import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_bottom_bar.dart';
@@ -70,7 +71,27 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
 
   _settingsFields() {
     return Column(
-      children: [_toggleDarkMode()],
+      children: [
+        _fieldContainer(
+          _toggleDarkMode(),
+        )
+      ],
+    );
+  }
+
+  _fieldContainer(Widget child) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: AppDimens.space),
+      padding: EdgeInsets.all(AppDimens.space * 2),
+      decoration: BoxDecoration(
+        color: AppWidget.themeNotifier.value == ThemeMode.light
+            ? AppColors.lightGrey
+            : AppColors.darkGrey,
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppDimens.space * 2),
+        ),
+      ),
+      child: child,
     );
   }
 
@@ -78,7 +99,10 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("toggle dark mode"),
+        Text(
+          "toggle dark mode",
+          style: AppTextStyles.titleSecondary,
+        ),
         CupertinoSwitch(
           value:
               AppWidget.themeNotifier.value == ThemeMode.light ? false : true,

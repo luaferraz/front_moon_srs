@@ -22,8 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginStore _loginStore = LoginStore();
   final FocusNode _focusPassword = FocusNode();
 
-  bool isPasswordHidden = true;
-
   var username = "";
   var password = "";
 
@@ -100,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _loginStore.formSignIn.username = value;
               },
               errorText: _loginStore.errorMessage,
-              validator: _validateLogin,
+              validator: _loginStore.validateLogin,
               keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
               nextFocus: _focusPassword,
@@ -111,10 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
             AppInput(
               errorText: _loginStore.errorMessage,
               hintText: "password",
-              obscureText: isPasswordHidden,
+              obscureText: _loginStore.isPasswordHidden,
               sulfixIcon: true,
               onTapSulfixIcon: () {
-                _togglePasswordVisibility();
+                _loginStore.togglePasswordVisibility();
               },
               value:
                   password != "" ? password : _loginStore.formSignIn.password,
@@ -174,22 +172,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void _togglePasswordVisibility() {
-    setState(() {
-      isPasswordHidden = !isPasswordHidden;
-    });
-  }
-
-  String? _validateLogin(String? text) {
-    if (text!.isEmpty) return "empty username";
-    return null;
-  }
-
-  String? _validatePassword(String? text) {
-    if (text!.isEmpty) return "empty password";
-
-    return null;
   }
 }

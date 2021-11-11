@@ -13,6 +13,7 @@ class AppColors {
 
   // darkTheme
   static Color bgDark = const Color(0xFF2C2B2E);
+  static Color fillInputDark = const Color(0xFF4F4B56);
   // static Color primary10 = const Color(0xFF2C2B2E);
   // static Color primary20 = const Color(0xFF2C2B2E);
   // static Color primary30 = const Color(0xFF2C2B2E);

@@ -8,6 +8,8 @@ import 'package:front_moon_srs/core/app_config.dart';
 import 'package:front_moon_srs/core/routes/routes.dart';
 import 'package:front_moon_srs/core/service_locator.dart';
 
+import '../../../app.dart';
+
 enum _MenuValues {
   logout,
 }
@@ -36,7 +38,9 @@ class AppTobBar extends StatelessWidget {
             : Container(),
         PopupMenuButton<_MenuValues>(
           offset: const Offset(0, 45),
-          color: AppColors.white,
+          color: AppWidget.themeNotifier.value == ThemeMode.light
+              ? AppColors.lightGrey
+              : AppColors.darkGrey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(AppDimens.space * 2),

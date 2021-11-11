@@ -24,8 +24,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool isPasswordHidden = true;
-
   @override
   void initState() {
     fetchDataInit();
@@ -74,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onChange: (value) {
                 _signUpStore.formSignUp.username = value;
               },
-              validator: _validateUsername,
+              validator: _signUpStore.validateUsername,
               keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
               nextFocus: _focusEmail,
@@ -87,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onChange: (value) {
                 _signUpStore.formSignUp.email = value;
               },
-              validator: _validateEmail,
+              validator: _signUpStore.validateEmail,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               focusNode: _focusEmail,
@@ -101,8 +99,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onChange: (value) {
                 _signUpStore.formSignUp.password = value;
               },
-              validator: _validatePassword,
-              errorText: _validatePassword(_signUpStore.formSignUp.password),
+              validator: _signUpStore.validatePassword,
+              errorText: _signUpStore
+                  .validatePassword(_signUpStore.formSignUp.password),
               keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
               focusNode: _focusPassword,
@@ -116,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               onChange: (value) {
                 _signUpStore.formSignUp.passwordConfirm = value;
               },
-              validator: _validateConfirmPassword,
+              validator: _signUpStore.validateConfirmPassword,
               keyboardType: TextInputType.name,
               textInputAction: TextInputAction.done,
               focusNode: _focusPasswordConfirm,
@@ -180,58 +179,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
-  }
-
-  _togglePasswordVisibility() {
-    setState(() {
-      isPasswordHidden = !isPasswordHidden;
-    });
-  }
-
-  String? _validateUsername(String? username) {
-    if (username!.isEmpty) return "cannot be empty";
-    if (username.contains(RegExp(r'[A-Z]'))) {
-      return "username needs at least one letter in uppercase";
-    }
-    if (username.length < 2) {
-      return "username needs to have at lest 3 characters";
-    }
-
-    return null;
-  }
-
-  String? _validatePassword(String? password) {
-    if (password!.isEmpty) return "cannot be empty";
-    if (!password.contains(RegExp(r'[A-Z]'))) {
-      return "at least one letter in uppercase";
-    }
-    if (!password.contains(RegExp(r'[0-9]'))) {
-      return "password needs at least one number";
-    }
-    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return "password needs to have special character (@!#%)";
-    }
-    if (password.length < 3) {
-      return "passwords needs to have at lest 3 characters";
-    }
-
-    return null;
-  }
-
-  String? _validateConfirmPassword(String? password) {
-    if (password!.isEmpty) return "cannot be empty";
-    if (password != _signUpStore.formSignUp.password)
-      return "the password fields must be the same";
-
-    return null;
-  }
-
-  String? _validateEmail(String? email) {
-    if (email!.isEmpty) return "cannot be empty";
-    if (!email.contains(RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'))) {
-      return "please enter an valid email";
-    }
-
-    return null;
   }
 }

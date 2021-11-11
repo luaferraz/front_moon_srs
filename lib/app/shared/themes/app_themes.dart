@@ -27,7 +27,6 @@ class AppThemes {
             AppColors.bgDark), //text (and icon)
       ),
     ),
-    brightness: Brightness.dark,
   );
 
   static final lightTheme = ThemeData(

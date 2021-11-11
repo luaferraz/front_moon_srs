@@ -14,6 +14,8 @@ import 'package:front_moon_srs/app/shared/widgets/app_loading.dart';
 import 'package:front_moon_srs/app/shared/widgets/app_top_bar.dart';
 import 'package:front_moon_srs/core/routes/routes.dart';
 
+import '../../../../app.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -99,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           "you have: ${_homeStore.myCollections.length.toString()} collection",
-          style: AppTextStyles.textGreyd,
+          style: AppTextStyles.textInput,
         ),
       ],
     );

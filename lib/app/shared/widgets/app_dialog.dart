@@ -3,6 +3,8 @@ import 'package:front_moon_srs/app/shared/themes/app_colors.dart';
 import 'package:front_moon_srs/app/shared/themes/app_dimens.dart';
 import 'package:front_moon_srs/app/shared/themes/app_text_styles.dart';
 
+import '../../../app.dart';
+
 AppModal(
     {required BuildContext context,
     required String title,
@@ -19,7 +21,9 @@ AppModal(
         contentPadding: EdgeInsets.all(AppDimens.space * 2),
         buttonPadding:
             EdgeInsets.fromLTRB(0, 0, AppDimens.space * 2, AppDimens.space * 2),
-        backgroundColor: AppColors.white,
+        backgroundColor: AppWidget.themeNotifier.value == ThemeMode.light
+            ? AppColors.white
+            : AppColors.bgDark,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(AppDimens.space * 2),

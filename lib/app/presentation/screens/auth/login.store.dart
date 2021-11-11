@@ -36,6 +36,9 @@ abstract class _LoginStore with Store {
   @action
   setFormSignIn(SignInDto value) => formSignIn = value;
 
+  @observable
+  bool isPasswordHidden = true;
+
   Future<void> init(BuildContext context) async {
     try {
       setLoading(true);
@@ -77,5 +80,20 @@ abstract class _LoginStore with Store {
     } finally {
       setLoading(false);
     }
+  }
+
+  void togglePasswordVisibility() {
+    isPasswordHidden = !isPasswordHidden;
+  }
+
+  String? validateLogin(String? text) {
+    if (text!.isEmpty) return "empty username";
+    return null;
+  }
+
+  String? validatePassword(String? text) {
+    if (text!.isEmpty) return "empty password";
+
+    return null;
   }
 }
