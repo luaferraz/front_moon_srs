@@ -101,7 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Text(
           "you have: ${_homeStore.myCollections.length.toString()} collection",
-          style: AppTextStyles.textInput,
+          style: AppWidget.themeNotifier.value == ThemeMode.light
+              ? AppTextStyles.textInputDark
+              : AppTextStyles.textInput,
         ),
       ],
     );

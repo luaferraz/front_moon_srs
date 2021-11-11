@@ -228,7 +228,10 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
                           Expanded(
                             child: Text(
                               collectionCard.front,
-                              style: AppTextStyles.textInput,
+                              style: AppWidget.themeNotifier.value ==
+                                      ThemeMode.light
+                                  ? AppTextStyles.textInputDark
+                                  : AppTextStyles.textInput,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -241,7 +244,10 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
                           Expanded(
                             child: Text(
                               collectionCard.back,
-                              style: AppTextStyles.textInput,
+                              style: AppWidget.themeNotifier.value ==
+                                      ThemeMode.light
+                                  ? AppTextStyles.textInputDark
+                                  : AppTextStyles.textInput,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

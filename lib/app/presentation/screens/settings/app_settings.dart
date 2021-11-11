@@ -60,7 +60,9 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
       children: [
         Text(
           "settings",
-          style: AppTextStyles.titleHome,
+          style: AppWidget.themeNotifier.value == ThemeMode.light
+              ? AppTextStyles.titleHomeDark
+              : AppTextStyles.titleHome,
         ),
         SizedBox(
           height: AppDimens.space,
@@ -101,7 +103,9 @@ class _AppSettingsScreenState extends State<AppSettingsScreen> {
       children: [
         Text(
           "toggle dark mode",
-          style: AppTextStyles.titleSecondary,
+          style: AppWidget.themeNotifier.value == ThemeMode.light
+              ? AppTextStyles.titleSecondaryDark
+              : AppTextStyles.titleSecondary,
         ),
         CupertinoSwitch(
           value:

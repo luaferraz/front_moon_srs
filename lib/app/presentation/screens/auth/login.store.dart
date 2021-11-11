@@ -5,7 +5,6 @@ import 'package:front_moon_srs/app/authentication/data/services/auth.service.dar
 import 'package:front_moon_srs/app/authentication/data/services/card.service.dart';
 import 'package:front_moon_srs/app/authentication/data/services/collection.service.dart';
 import 'package:front_moon_srs/app/authentication/data/sources/locar_storage.source.dart';
-import 'package:front_moon_srs/core/routes/routes.dart';
 import 'package:front_moon_srs/core/service_locator.dart';
 import 'package:mobx/mobx.dart';
 
@@ -82,8 +81,11 @@ abstract class _LoginStore with Store {
     }
   }
 
+  @action
   void togglePasswordVisibility() {
     isPasswordHidden = !isPasswordHidden;
+    print(isPasswordHidden);
+    print("buttom clicked");
   }
 
   String? validateLogin(String? text) {

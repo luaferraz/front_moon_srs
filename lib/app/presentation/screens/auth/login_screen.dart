@@ -112,7 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: _loginStore.isPasswordHidden,
               sulfixIcon: true,
               onTapSulfixIcon: () {
-                _loginStore.togglePasswordVisibility();
+                setState(() {
+                  _loginStore.togglePasswordVisibility();
+                });
               },
               value:
                   password != "" ? password : _loginStore.formSignIn.password,

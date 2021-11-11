@@ -60,7 +60,9 @@ class AppTobBar extends StatelessWidget {
                   ),
                   Text(
                     "logout",
-                    style: AppTextStyles.textInput,
+                    style: AppWidget.themeNotifier.value == ThemeMode.light
+                        ? AppTextStyles.textInputDark
+                        : AppTextStyles.textInput,
                   ),
                 ],
               ),

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../app.dart';
 import 'app_colors.dart';
 
 class AppTextStyles {
   static final titleHome = GoogleFonts.lato(
     fontSize: 32,
     fontWeight: FontWeight.w600,
-    color: AppWidget.themeNotifier.value == ThemeMode.light
-        ? AppColors.darkGrey
-        : AppColors.lightGrey,
+    color: AppColors.lightGrey,
+  );
+
+  static final titleHomeDark = GoogleFonts.lato(
+    fontSize: 32,
+    fontWeight: FontWeight.w600,
+    color: AppColors.darkGrey,
   );
 
   static final textButtonUnderline = GoogleFonts.lato(
@@ -32,9 +34,12 @@ class AppTextStyles {
 
   static final textInput = GoogleFonts.lato(
     fontSize: 16,
-    color: AppWidget.themeNotifier.value == ThemeMode.light
-        ? AppColors.darkGrey
-        : AppColors.lightGrey,
+    color: AppColors.lightGrey,
+  );
+
+  static final textInputDark = GoogleFonts.lato(
+    fontSize: 16,
+    color: AppColors.darkGrey,
   );
 
   static final smallContentWhite = GoogleFonts.lato(
@@ -46,17 +51,25 @@ class AppTextStyles {
   static final smallerContent = GoogleFonts.lato(
     fontSize: 13,
     fontWeight: FontWeight.bold,
-    color: AppWidget.themeNotifier.value == ThemeMode.light
-        ? AppColors.lightGrey
-        : AppColors.darkGrey,
+    color: AppColors.lightGrey,
+  );
+
+  static final smallerContentDark = GoogleFonts.lato(
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+    color: AppColors.darkGrey,
   );
 
   static final titleSecondary = GoogleFonts.lato(
     fontSize: 20,
     fontWeight: FontWeight.w600,
-    color: AppWidget.themeNotifier.value == ThemeMode.light
-        ? AppColors.darkGrey
-        : AppColors.lightGrey,
+    color: AppColors.lightGrey,
+  );
+
+  static final titleSecondaryDark = GoogleFonts.lato(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.darkGrey,
   );
 
   static final cardContentBig = GoogleFonts.lato(

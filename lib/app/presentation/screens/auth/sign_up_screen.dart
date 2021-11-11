@@ -69,6 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           children: [
             AppInput(
               hintText: "username",
+              value: _signUpStore.formSignUp.username,
               onChange: (value) {
                 _signUpStore.formSignUp.username = value;
               },
@@ -82,6 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             AppInput(
               hintText: "email",
+              value: _signUpStore.formSignUp.email,
               onChange: (value) {
                 _signUpStore.formSignUp.email = value;
               },
@@ -96,6 +98,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             AppInput(
               hintText: "password",
+              obscureText: _signUpStore.isPasswordHidden,
+              value: _signUpStore.formSignUp.password,
+              sulfixIcon: true,
+              onTapSulfixIcon: () {
+                setState(() {
+                  _signUpStore.togglePasswordVisibility();
+                });
+              },
               onChange: (value) {
                 _signUpStore.formSignUp.password = value;
               },
@@ -112,6 +122,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             AppInput(
               hintText: "password confirm",
+              value: _signUpStore.formSignUp.passwordConfirm,
+              obscureText: _signUpStore.isPasswordHidden,
               onChange: (value) {
                 _signUpStore.formSignUp.passwordConfirm = value;
               },

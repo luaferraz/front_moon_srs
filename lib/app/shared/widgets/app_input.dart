@@ -67,7 +67,9 @@ class AppInput extends StatelessWidget {
       inputFormatters: inputFormatters,
       textInputAction: textInputAction,
       focusNode: focusNode,
-      style: AppTextStyles.textInput,
+      style: AppWidget.themeNotifier.value == ThemeMode.light
+          ? AppTextStyles.textInputDark
+          : AppTextStyles.textInput,
       onFieldSubmitted: (String text) {
         if (nextFocus != null) FocusScope.of(context).requestFocus(nextFocus);
       },
@@ -77,7 +79,9 @@ class AppInput extends StatelessWidget {
             : AppColors.fillInputDark,
         filled: true,
         labelText: hintText,
-        labelStyle: AppTextStyles.textInput,
+        labelStyle: AppWidget.themeNotifier.value == ThemeMode.light
+            ? AppTextStyles.textInputDark
+            : AppTextStyles.textInput,
         suffixIcon: sulfixIcon
             ? obscureText
                 ? IconButton(
